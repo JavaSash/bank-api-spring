@@ -1,0 +1,9 @@
+version: '3'
+services:
+  postgres:
+    environment:
+      - DB_NAME=postgres
+      - POSTGRES_PASSWORD=123456
+    image: 'postgres:12.3-alpine'
+    ports:
+      - 5432:5432

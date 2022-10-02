@@ -12,12 +12,12 @@ import java.util.Set;
 public class NumberGenerator {
 
     private static final int START_INTERVAL = 1;
-    private static final int endIntervalDefault = 9;
-    private static int endInterval = endIntervalDefault;
-    private static final int accountGenerateIterations = 20;
-    private static final int cardGenerateIterations = 16;
-    private static final Set<String> accounts = new HashSet<>();
-    private static final Set<String> cards = new HashSet<>();
+    private static final int DEFAULT_END_INTERVAL = 9;
+    private static int endInterval = DEFAULT_END_INTERVAL;
+    private static final int ACCOUNT_GENERATE_ITERATIONS = 20;
+    private static final int CARD_GENERATE_ITERATIONS = 16;
+    private static final Set<String> ACCOUNTS = new HashSet<>();
+    private static final Set<String> CARDS = new HashSet<>();
 
     /**
      * Генерирует случайный номер аккаунта
@@ -25,11 +25,11 @@ public class NumberGenerator {
      * @return 20-тизначный номер аккаунта
      */
     public static String generateAccountNumber() {
-        String number = generateSequence(accountGenerateIterations);
-        if (accounts.contains(number)) {
+        String number = generateSequence(ACCOUNT_GENERATE_ITERATIONS);
+        if (ACCOUNTS.contains(number)) {
             generateAccountNumber();
         }
-        accounts.add(number);
+        ACCOUNTS.add(number);
         return number;
     }
 
@@ -39,16 +39,16 @@ public class NumberGenerator {
      * @return 16-тизначный номер аккаунта
      */
     public static String generateCardNumber() {
-        String number = generateSequence(cardGenerateIterations);
-        if (cards.contains(number)) {
+        String number = generateSequence(CARD_GENERATE_ITERATIONS);
+        if (CARDS.contains(number)) {
             generateCardNumber();
         }
-        cards.add(number);
+        CARDS.add(number);
         return number;
     }
 
     private static int generateNumber() {
-        endInterval = endIntervalDefault;
+        endInterval = DEFAULT_END_INTERVAL;
         endInterval -= START_INTERVAL;
         return (int) ((Math.random() * endInterval) + START_INTERVAL);
     }

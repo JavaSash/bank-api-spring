@@ -1,1 +1,16 @@
+spring:
+# DB
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123456
+#    initialization-mode: always # use external db and init at each launch of application
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        ddl-auto: none # off auto creating tables by @Entity
+        hbm2ddl.auto: update # hibernate creates db-tables at start application
+
 
