@@ -21,3 +21,4 @@ management:
       exposure:
         include: env,info,health,mappings,metrics,beans,loggers # enabled actuator endpoints
 
+bank-api:

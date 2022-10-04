@@ -2,6 +2,7 @@ package ru.stepenko.bank.api.spring.service;
 
 import ru.stepenko.bank.api.spring.exception.InsufficientFundsException;
 import ru.stepenko.bank.api.spring.exception.NegativeAmountException;
+import ru.stepenko.bank.api.spring.exception.NoSuchElementException;
 import ru.stepenko.bank.api.spring.model.BankAccount;
 import ru.stepenko.bank.api.spring.model.Client;
 
@@ -17,6 +18,8 @@ public interface AccountOperations extends Operations {
      * @return активный аккаунт
      */
     BankAccount createAccount(Client client);
+
+    BankAccount getAccount(Client client) throws NoSuchElementException;
 
     /**
      * Выпуск карты возможен только на активном аккаунте

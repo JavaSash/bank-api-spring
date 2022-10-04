@@ -49,14 +49,12 @@ public class BankAccount {
         issueDate = LocalDateTime.now();
     }
 
-    public BigDecimal deposit(BigDecimal amount) {
+    public void deposit(BigDecimal amount) {
         balance.add(amount);
-        return balance;
     }
 
-    public BigDecimal withdraw(BigDecimal amount) {
+    public void withdraw(BigDecimal amount) {
         balance.subtract(amount);
-        return balance;
     }
 
 
@@ -92,14 +90,12 @@ public class BankAccount {
             return balance;
         }
 
-        public BigDecimal deposit(BigDecimal amount) {
+        public void deposit(BigDecimal amount) {
             balance.add(amount);
-            return balance;
         }
 
-        public BigDecimal withdraw(BigDecimal amount) {
+        public void withdraw(BigDecimal amount) {
             balance.subtract(amount);
-            return balance;
         }
     }
 }
