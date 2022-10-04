@@ -13,4 +13,11 @@ spring:
 #        ddl-auto: none # off auto creating tables by @Entity
         hbm2ddl.auto: update # hibernate creates db-tables at start application
 
+debug: false # true gives autoconfiguration report
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: env,info,health,mappings,metrics,beans,loggers # enabled actuator endpoints
 
