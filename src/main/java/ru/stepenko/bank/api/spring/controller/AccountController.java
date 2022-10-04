@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.stepenko.bank.api.spring.dto.CashMovementRq;
 import ru.stepenko.bank.api.spring.exception.InsufficientFundsException;
 import ru.stepenko.bank.api.spring.exception.NegativeAmountException;
 import ru.stepenko.bank.api.spring.exception.NoSuchElementException;
@@ -55,18 +56,22 @@ public class AccountController {
     }
 
     @PutMapping("/deposit")
-    public ResponseEntity depositOnAccount(BankAccount account, BigDecimal amount) {
+    public ResponseEntity depositOnAccount(@RequestBody CashMovementRq rq) {
         try {
-            return new ResponseEntity<>(accountService.deposit(account, amount), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    accountService.deposit((BankAccount) rq.getCashEntity(), rq.getAmount()),
+                    HttpStatus.OK);
         } catch (NegativeAmountException e) {
             return new ResponseEntity<>(NEGATIVE_AMOUNT, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/withdraw")
-    public ResponseEntity withdrawalFromAccount(BankAccount account, BigDecimal amount) {
+    public ResponseEntity withdrawalFromAccount(@RequestBody CashMovementRq rq) {
         try {
-            return new ResponseEntity<>(accountService.withdrawal(account, amount), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    accountService.withdrawal((BankAccount) rq.getCashEntity(), rq.getAmount()),
+                    HttpStatus.OK);
         } catch (NegativeAmountException e) {
             return new ResponseEntity<>(NEGATIVE_AMOUNT, HttpStatus.BAD_REQUEST);
         } catch (InsufficientFundsException e) {

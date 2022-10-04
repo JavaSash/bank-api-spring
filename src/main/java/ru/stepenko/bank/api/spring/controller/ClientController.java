@@ -42,10 +42,10 @@ public class ClientController {
             return new ResponseEntity<>(CLIENT_NOT_FOUND, HttpStatus.BAD_REQUEST);
         }
     }
-//    TODO how will work @RequestBody & @PathVariable together? Do RqDto
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable long id, @RequestBody Client client) {
-        return service.existClientWithId(id)
+
+    @PutMapping("/update")
+    public ResponseEntity<Client> updateClient(@RequestBody Client client) {
+        return service.existClientWithId(client.getId())
                 ? new ResponseEntity<>(service.save(client), HttpStatus.OK)
                 : new ResponseEntity<>(service.save(client), HttpStatus.CREATED);
     }

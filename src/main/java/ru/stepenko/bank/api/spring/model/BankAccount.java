@@ -19,7 +19,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "accounts")
-public class BankAccount {
+public class BankAccount extends CashEntity {
 
     private static long accInstances = 0L;
     @Getter
@@ -49,23 +49,29 @@ public class BankAccount {
         issueDate = LocalDateTime.now();
     }
 
-    public void deposit(BigDecimal amount) {
-        balance.add(amount);
+    @Override
+    public BigDecimal deposit(BigDecimal amount) {
+        return balance.add(amount);
     }
 
-    public void withdraw(BigDecimal amount) {
-        balance.subtract(amount);
+    @Override
+    public BigDecimal withdraw(BigDecimal amount) {
+        return balance.subtract(amount);
     }
 
+    @Override
+    public BigDecimal getBalance() {
+        return balance;
+    }
 
-//    TODO add card status (active/blocked/closed etc)
+    //    TODO add card status (active/blocked/closed etc)
 //    TODO  подумать над отдельным балансом для карты, как часть баланса аккаунта. Плюс перевод между своими картами
     @JsonIgnoreProperties(ignoreUnknown = true)
     @AllArgsConstructor
     @Data
     @Entity
     @Table(name = "cards")
-    public class BankCard {
+    public class BankCard extends CashEntity {
 
         @Id
         @GeneratedValue
@@ -86,16 +92,19 @@ public class BankAccount {
             cards.add(this);
         }
 
+        @Override
         public BigDecimal getBalance() {
             return balance;
         }
 
-        public void deposit(BigDecimal amount) {
-            balance.add(amount);
+        @Override
+        public BigDecimal deposit(BigDecimal amount) {
+            return balance.add(amount);
         }
 
-        public void withdraw(BigDecimal amount) {
-            balance.subtract(amount);
+        @Override
+        public BigDecimal withdraw(BigDecimal amount) {
+            return balance.subtract(amount);
         }
     }
 }

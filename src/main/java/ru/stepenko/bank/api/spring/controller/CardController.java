@@ -3,10 +3,8 @@ package ru.stepenko.bank.api.spring.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.stepenko.bank.api.spring.dto.CashMovementRq;
 import ru.stepenko.bank.api.spring.exception.InsufficientFundsException;
 import ru.stepenko.bank.api.spring.exception.NegativeAmountException;
 import ru.stepenko.bank.api.spring.model.BankAccount;
@@ -32,18 +30,22 @@ public class CardController {
     private final BankCardService cardService;
 
     @PutMapping("/deposit")
-    public ResponseEntity depositOnCard(BankAccount.BankCard card, BigDecimal amount) {
+    public ResponseEntity depositOnCard(@RequestBody CashMovementRq rq) {
         try {
-            return new ResponseEntity(cardService.deposit(card, amount), HttpStatus.OK);
+            return new ResponseEntity(
+                    cardService.deposit((BankAccount.BankCard) rq.getCashEntity(), rq.getAmount()),
+                    HttpStatus.OK);
         } catch (NegativeAmountException e) {
             return new ResponseEntity(NEGATIVE_AMOUNT, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/withdraw")
-    public ResponseEntity withdrawalFromCard(BankAccount.BankCard card, BigDecimal amount) {
+    public ResponseEntity withdrawalFromCard(@RequestBody CashMovementRq rq) {
         try {
-            return new ResponseEntity(cardService.withdrawal(card, amount), HttpStatus.OK);
+            return new ResponseEntity(
+                    cardService.withdrawal((BankAccount.BankCard) rq.getCashEntity(), rq.getAmount()),
+                    HttpStatus.OK);
         } catch (NegativeAmountException e) {
             return new ResponseEntity<>(NEGATIVE_AMOUNT, HttpStatus.BAD_REQUEST);
         } catch (InsufficientFundsException e) {
@@ -52,7 +54,7 @@ public class CardController {
     }
 
     @PostMapping("/get-balance")
-    public ResponseEntity<BigDecimal> getCardBalance(BankAccount.BankCard card) {
+    public ResponseEntity<BigDecimal> getCardBalance(@RequestBody BankAccount.BankCard card) {
         return new ResponseEntity<>(cardService.getBalance(card), HttpStatus.OK);
     }
 }
